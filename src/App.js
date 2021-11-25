@@ -6,7 +6,9 @@ class MyComponent extends React.Component {
       error: null,
       isLoaded: true,
       value : '',
-      ans1: [],
+      ans1: null,
+      ans2 : null
+      
     };
   }
 
@@ -19,6 +21,7 @@ class MyComponent extends React.Component {
     event.preventDefault();
 
     //// we can put api here for serche 
+
     var raw = JSON.stringify({
       "jsonrpc": "2.0",
       "method": "account_history_api.get_account_history",
@@ -36,11 +39,12 @@ class MyComponent extends React.Component {
       redirect: 'follow'
     };
     fetch("https://api.steemit.com", requestOptions)
-  .then(response => response.text())
+  .then(response => response.json())
   .then(result => 
     this.setState({
         isLoaded: true,
-        ans1: result
+        ans1: result.result.history[0][1].trx_id,
+        ans2 : result.result.history[0][1].op.value.props.account_creation_fee.amount,
       })
     )
   .catch(error =>
@@ -51,8 +55,10 @@ class MyComponent extends React.Component {
      );
   }
 
+
+
   render() {
-    const { error, isLoaded, ans1 } = this.state;
+    const { error, isLoaded, ans1,ans2 } = this.state;
     if (error) {
       return <div>Error: {error.message}</div>;
     } else if (!isLoaded ) {
@@ -74,8 +80,9 @@ class MyComponent extends React.Component {
 
         <div>
           <p>API Res response ( I  will put all data here because in dont know what you want  so you can serche for example "steemit")</p>
-          <strong>all data just for show * : {ans1} </strong> <br>
+          <strong>trx_id : {ans1} </strong> <br>
           </br>
+          <strong>amount : {ans2} </strong>
           
         </div>
         </div>
