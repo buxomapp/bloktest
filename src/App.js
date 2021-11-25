@@ -1,15 +1,10 @@
 import React,{Component} from "react";
-
-
-
 class MyComponent extends React.Component {
-
-  
   constructor(props) {
     super(props);
     this.state = {
       error: null,
-      isLoaded: false,
+      isLoaded: true,
       value : '',
       ans1: [],
     };
@@ -24,47 +19,37 @@ class MyComponent extends React.Component {
     event.preventDefault();
 
     //// we can put api here for serche 
-
-  
-  }
-
-  componentDidMount() {
     var raw = JSON.stringify({
       "jsonrpc": "2.0",
       "method": "account_history_api.get_account_history",
       "params": {
-        "account": "steemit", // also we can put this for serche = > ...... this.state.value,
+        "account": "steemit",
         "start": 1000,
         "limit": 1000
       },
       "id": 1
     });
+    
     var requestOptions = {
       method: 'POST',
       body: raw,
       redirect: 'follow'
     };
-
-
-     fetch("https://api.steemit.com",requestOptions)
-      .then(res => res.json())
-      .then(
-        (result) => {
-          this.setState({
-            isLoaded: true,
-            ans1: result
-          });
-        },
-        (error) => {
-          this.setState({
-            isLoaded: true,
-            error
-          });
-        }
-      )
+    fetch("https://api.steemit.com", requestOptions)
+  .then(response => response.text())
+  .then(result => 
+    this.setState({
+        isLoaded: true,
+        ans1: result
+      })
+    )
+  .catch(error =>
+    this.setState({
+      isLoaded: true,
+      error
+    })
+     );
   }
-
-  
 
   render() {
     const { error, isLoaded, ans1 } = this.state;
@@ -73,6 +58,7 @@ class MyComponent extends React.Component {
     } else if (!isLoaded ) {
       return <div></div>;
     } else {
+      
       return (
 
         <div>
@@ -87,8 +73,8 @@ class MyComponent extends React.Component {
         
 
         <div>
-          <p>API Res response ( I put a data as example)</p>
-          <strong>trx_id : {ans1.result.history[0][1].trx_id} </strong> <br>
+          <p>API Res response ( I  will put all data here because in dont know what you want  so you can serche for example "steemit")</p>
+          <strong>trx_id : {ans1} </strong> <br>
           </br>
           
         </div>
