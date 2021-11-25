@@ -74,7 +74,7 @@ class MyComponent extends React.Component {
 
         <div>
           <p>API Res response ( I  will put all data here because in dont know what you want  so you can serche for example "steemit")</p>
-          <strong>trx_id : {ans1} </strong> <br>
+          <strong>all data just for show * : {ans1} </strong> <br>
           </br>
           
         </div>
